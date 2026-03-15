@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryan's Vinyl Collection</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --cream:      #f5f0e8;
+      --cream-mid:  #ede6d6;
+      --cream-dark: #d9cfc0;
+      --ink:        #1a1410;
+      --ink-mid:    #3d3128;
+      --ink-light:  #6b5d4f;
+      --amber:      #c8860a;
+      --amber-light:#e8a520;
+      --amber-glow: rgba(200,134,10,0.15);
+      --burgundy:   #7a2e3c;
+      --vinyl-dark: #1a1410;
+      --vinyl-groove: #2a221c;
+
+      --bg:         var(--cream);
+      --bg-card:    #fff;
+      --bg-card2:   var(--cream-mid);
+      --bg-ctrl:    rgba(255,255,255,0.8);
+      --border:     rgba(26,20,16,0.12);
+      --border-strong: rgba(26,20,16,0.25);
+      --text:       var(--ink);
+      --text-mid:   var(--ink-mid);
+      --text-light: var(--ink-light);
+      --accent:     var(--amber);
+      --accent2:    var(--burgundy);
+      --shadow-sm:  0 1px 3px rgba(26,20,16,0.08), 0 1px 2px rgba(26,20,16,0.06);
+      --shadow-md:  0 4px 12px rgba(26,20,16,0.10), 0 2px 4px rgba(26,20,16,0.06);
+      --shadow-lg:  0 16px 40px rgba(26,20,16,0.14), 0 4px 12px rgba(26,20,16,0.08);
+      --shadow-hover: 0 20px 50px rgba(26,20,16,0.18), 0 6px 16px rgba(26,20,16,0.10);
+      --radius:     6px;
+      --radius-lg:  10px;
+      --transition: 200ms cubic-bezier(0.4,0,0.2,1);
+    }
+
+    [data-theme="dark"] {
+      --bg:         #0f0d0b;
+      --bg-card:    #1c1712;
+      --bg-card2:   #241e17;
+      --bg-ctrl:    rgba(28,23,18,0.9);
+      --border:     rgba(255,240,210,0.08);
+      --border-strong: rgba(255,240,210,0.16);
+      --text:       #f0e8d8;
+      --text-mid:   #c8b89a;
+      --text-light: #8a7a68;
+      --accent:     var(--amber-light);
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md:  0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lg:  0 16px 40px rgba(0,0,0,0.6);
+      --shadow-hover: 0 20px 50px rgba(0,0,0,0.7);
+    }
+
+    /* ─── RESET & BASE ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Karla', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    /* ─── BACKGROUND TEXTURE ────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 1;
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────── */
+    .site-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────── */
+    .site-header {
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .brand-icon {
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+    }
+
+    .brand-text {}
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .brand-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 0.3rem;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .record-count {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-ctrl);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--amber-glow);
+      color: var(--accent);
+    }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .icon-sun, .icon-moon { display: none; }
+    [data-theme="light"] .icon-sun { display: block; }
+    [data-theme="dark"]  .icon-moon { display: block; }
+
+    /* ─── CONTROLS BAR ───────────────────────────────────────── */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+      max-width: 380px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+    .search-icon svg { width: 16px; height: 16px; }
+
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 0.9rem 0.6rem 2.5rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--bg-ctrl);
+      color: var(--text);
+      font-family: 'Karla', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      backdrop-filter: blur(8px);
+      transition: all var(--transition);
+      outline: none;
+    }
+    .search-input::placeholder { color: var(--text-light); }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--amber-glow);
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--text-light);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      line-height: 1;
+      transition: background var(--transition);
+    }
+    .clear-search.visible { display: flex; }
+    .clear-search:hover { background: var(--accent); }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--text-light);
+      pointer-events: none;
+    }
+
+    .ctrl-select {
+      appearance: none;
+      padding: 0.55rem 2rem 0.55rem 0.8rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--bg-ctrl);
+      color: var(--text);
+      font-family: 'Karla', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all var(--transition);
+      outline: none;
+    }
+    .ctrl-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--amber-glow); }
+
+    .ctrl-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--border-strong);
+      margin: 0 0.25rem;
+    }
+
+    .view-toggle {
+      display: flex;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .view-btn {
+      padding: 0.55rem 0.8rem;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+    .view-btn svg { width: 16px; height: 16px; }
+    .view-btn + .view-btn { border-left: 1px solid var(--border-strong); }
+    .view-btn.active {
+      background: var(--accent);
+      color: var(--cream);
+    }
+    .view-btn:not(.active):hover { background: var(--amber-glow); color: var(--accent); }
+
+    /* ─── RESULTS INFO ───────────────────────────────────────── */
+    .results-info {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .results-info strong { color: var(--accent); font-weight: 700; }
+
+    /* ─── GROUP HEADER ───────────────────────────────────────── */
+    .group-section { margin-bottom: 3rem; }
+
+    .group-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--accent);
+      position: relative;
+    }
+
+    .group-header::before {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--accent2);
+    }
+
+    .group-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .group-count {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      background: var(--amber-glow);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    /* ─── CARD GRID ──────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ─── ALBUM CARD ─────────────────────────────────────────── */
+    .album-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      cursor: default;
+      animation: cardIn 0.35s both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .album-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-strong);
+    }
+
+    .card-art-wrap {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--bg-card2);
+      position: relative;
+    }
+
+    .card-art-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .card-art-wrap.art-loaded img { opacity: 1; }
+    .card-art-wrap.art-loaded .vinyl-placeholder { opacity: 0; pointer-events: none; }
+
+    .album-card:hover .card-art-wrap img {
+      transform: scale(1.04);
+    }
+
+    /* vinyl placeholder */
+    .vinyl-placeholder {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--bg-card2) 0%, var(--vinyl-dark) 100%);
+      transition: opacity 0.3s ease;
+    }
+
+    [data-theme="light"] .vinyl-placeholder {
+      background: linear-gradient(135deg, #2a221c 0%, #0f0d0b 100%);
+    }
+
+    .card-info {
+      padding: 0.85rem 0.9rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-artist {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .card-genre {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      background: var(--bg-card2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    .card-year {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-left: auto;
+    }
+
+    /* ─── LIST VIEW ──────────────────────────────────────────── */
+    .album-list {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .list-header {
+      display: grid;
+      grid-template-columns: 52px 1fr 1fr 140px 72px;
+      gap: 0;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card2);
+      border-bottom: 1px solid var(--border-strong);
+    }
+
+    .list-header-cell {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 0.25rem 0.5rem;
+    }
+
+    .list-header-cell:first-child { padding-left: 0; }
+
+    .list-row {
+      display: grid;
+      grid-template-columns: 52px 1fr 1fr 140px 72px;
+      gap: 0;
+      padding: 0 1rem;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+      animation: rowIn 0.25s both;
+    }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateX(-6px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .list-row:last-child { border-bottom: none; }
+    .list-row:hover { background: var(--amber-glow); }
+
+    .list-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-card2);
+      flex-shrink: 0;
+      margin: 0.4rem 0;
+    }
+
+    .list-thumb {
+      position: relative;
+    }
+    .list-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .list-thumb.art-loaded img { opacity: 1; }
+    .list-thumb.art-loaded .vinyl-placeholder { opacity: 0; pointer-events: none; }
+    .list-thumb .vinyl-placeholder {
+      position: absolute;
+      inset: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .list-cell {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .list-title-cell .list-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .list-artist {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .list-artist-cell {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .list-genre-cell {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .list-year-cell {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* ─── EMPTY STATE ────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--text-light);
+    }
+
+    .empty-vinyl {
+      margin: 0 auto 1.5rem;
+      opacity: 0.3;
+    }
+
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .site-footer {
+      margin-top: 4rem;
+      padding: 1.5rem 0 2.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .site-wrap { padding: 0 1rem; }
+      .card-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 1rem; }
+      .controls-bar { gap: 0.5rem; }
+      .ctrl-divider { display: none; }
+      .list-header, .list-row {
+        grid-template-columns: 44px 1fr 100px 54px;
+      }
+      .list-header-cell:nth-child(3),
+      .list-row > .list-cell:nth-child(3) { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .list-header, .list-row {
+        grid-template-columns: 44px 1fr 54px;
+      }
+      .list-header-cell:nth-child(4),
+      .list-row > .list-cell:nth-child(4) { display: none; }
+    }
+
+    /* stagger animation delays */
+    .album-card:nth-child(1)  { animation-delay: 0.02s; }
+    .album-card:nth-child(2)  { animation-delay: 0.04s; }
+    .album-card:nth-child(3)  { animation-delay: 0.06s; }
+    .album-card:nth-child(4)  { animation-delay: 0.08s; }
+    .album-card:nth-child(5)  { animation-delay: 0.10s; }
+    .album-card:nth-child(6)  { animation-delay: 0.12s; }
+    .album-card:nth-child(7)  { animation-delay: 0.14s; }
+    .album-card:nth-child(8)  { animation-delay: 0.16s; }
+    .album-card:nth-child(9)  { animation-delay: 0.18s; }
+    .album-card:nth-child(10) { animation-delay: 0.20s; }
+  </style>
+</head>
+<body>
+
+<div class="site-wrap">
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <!-- Vinyl record SVG logo -->
+        <svg class="brand-icon" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="27" cy="27" r="26" fill="#1a1410" stroke="var(--accent)" stroke-width="1.5"/>
+          <circle cx="27" cy="27" r="22" fill="none" stroke="#2a221c" stroke-width="1"/>
+          <circle cx="27" cy="27" r="18" fill="none" stroke="#2a221c" stroke-width="0.8"/>
+          <circle cx="27" cy="27" r="14" fill="none" stroke="#2a221c" stroke-width="0.8"/>
+          <circle cx="27" cy="27" r="10" fill="none" stroke="#2a221c" stroke-width="0.8"/>
+          <circle cx="27" cy="27" r="7" fill="var(--accent)" opacity="0.9"/>
+          <circle cx="27" cy="27" r="2.5" fill="#1a1410"/>
+          <!-- label arc highlight -->
+          <path d="M 20 20 A 9.9 9.9 0 0 1 34 20" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-text">
+          <h1 class="brand-title">Ryan's <em>Vinyl</em> Collection</h1>
+          <p class="brand-subtitle">
+            <span id="total-label">117 records</span>
+            &nbsp;·&nbsp; Est. All Years
+          </p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="record-count" id="showing-count">Showing 113</span>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme">
+          <!-- Sun icon -->
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon -->
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTROLS -->
+  <div class="controls-bar">
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+      <input
+        type="search"
+        class="search-input"
+        id="search-input"
+        placeholder="Search artist, album, genre, year…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="clear-search" id="clear-search" aria-label="Clear search">✕</button>
+    </div>
+
+    <div class="controls-right">
+      <!-- Sort -->
+      <span class="ctrl-label">Sort</span>
+      <div class="select-wrap">
+        <select class="ctrl-select" id="sort-select">
+          <option value="artist">Artist A–Z</option>
+          <option value="title">Title A–Z</option>
+          <option value="genre">Genre A–Z</option>
+          <option value="year-asc">Year (Old→New)</option>
+          <option value="year-desc">Year (New→Old)</option>
+        </select>
+      </div>
+
+      <div class="ctrl-divider"></div>
+
+      <!-- Group -->
+      <span class="ctrl-label">Group</span>
+      <div class="select-wrap">
+        <select class="ctrl-select" id="group-select">
+          <option value="none">None</option>
+          <option value="artist">By Artist</option>
+          <option value="genre">By Genre</option>
+          <option value="year">By Year</option>
+        </select>
+      </div>
+
+      <div class="ctrl-divider"></div>
+
+      <!-- View toggle -->
+      <div class="view-toggle" role="group" aria-label="View mode">
+        <button class="view-btn active" id="view-card" title="Card view" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </button>
+        <button class="view-btn" id="view-list" title="List view" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="2" rx="1"/><rect x="3" y="11" width="18" height="2" rx="1"/><rect x="3" y="18" width="18" height="2" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS INFO -->
+  <p class="results-info" id="results-info"></p>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content"></main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    Ryan's Vinyl Collection &nbsp;·&nbsp; <span id="footer-count">117</span> records and counting
+  </footer>
+</div>
+
+<script>
+  // ─── DATA ────────────────────────────────────────────────────
+  const ALBUMS = [
+    {"id":1,"artist":"The Doors","title":"L.A. Woman","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/62/The_Doors_-_L.A._Woman.jpg"},
+    {"id":2,"artist":"Jimi Hendrix Experience","title":"Are You Experienced","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/54/Are_You_Experienced_US_cover.jpg"},
+    {"id":3,"artist":"Lawrence Welk","title":"Moon River","genre":"Pop","year":1961,"img_url":""},
+    {"id":5,"artist":"The Doors","title":"The Doors","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/6f/The_Doors_debut_album.jpg"},
+    {"id":6,"artist":"Various Artists","title":"Rocky IV Soundtrack","genre":"Soundtrack","year":1985,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/63/Rocky_IV_Soundtrack.jpg"},
+    {"id":7,"artist":"Neil Young","title":"Harvest","genre":"Folk","year":1972,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/a8/NeilYoungHarvestalbumcover.jpg"},
+    {"id":9,"artist":"Bruce Springsteen","title":"Born in the USA","genre":"Rock","year":1984,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/5b/Born_in_the_USA.jpg"},
+    {"id":10,"artist":"Bruce Springsteen","title":"Darkness on the Edge of Town","genre":"Rock","year":1978,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/33/DarknessOnTheEdgeOfTown.jpg"},
+    {"id":11,"artist":"Bruce Springsteen","title":"Born to Run","genre":"Rock","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/a7/Born_to_Run.jpg"},
+    {"id":12,"artist":"Eric Clapton","title":"From the Cradle","genre":"Blues","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/f/f5/EricClapton-FromTheCradle.jpg"},
+    {"id":13,"artist":"Pink Floyd","title":"Wish You Were Here","genre":"Classic Rock","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/a4/WishYouWereHere.jpg"},
+    {"id":14,"artist":"Creedence Clearwater Revival","title":"Cosmo's Factory","genre":"Classic Rock","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/0/08/CosmoFactory.jpg"},
+    {"id":15,"artist":"Johnny Cash","title":"At San Quentin","genre":"Country","year":1969,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/e4/Johnny_Cash_-_At_San_Quentin.jpg"},
+    {"id":16,"artist":"Bob Dylan","title":"Highway 61 Revisited","genre":"Folk","year":1965,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/1c/Bob_Dylan_-_Highway_61_Revisited.jpg"},
+    {"id":17,"artist":"Michael Jackson","title":"Thriller","genre":"Pop","year":1982,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/55/Michael_Jackson_-_Thriller.png"},
+    {"id":18,"artist":"Various Artists","title":"Inside Llewyn Davis (Soundtrack)","genre":"Soundtrack","year":2013,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/cb/Inside_Llewyn_Davis_-_O.S.T.jpg"},
+    {"id":19,"artist":"Willie Nelson","title":"Always on My Mind","genre":"Country","year":1982,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/ba/WillieNelsonAlwaysOnMyMind.jpg"},
+    {"id":20,"artist":"Aerosmith","title":"Toys in the Attic","genre":"Rock","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/63/Aerosmith_-_Toys_in_the_Attic.jpg"},
+    {"id":21,"artist":"Grateful Dead","title":"American Beauty","genre":"Folk","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/bb/AmericanBeauty.jpg"},
+    {"id":22,"artist":"Seagulls","title":"Great Pine","genre":"Indie","year":2023,"img_url":""},
+    {"id":23,"artist":"Nirvana","title":"MTV Unplugged in New York","genre":"Alt/Grunge","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/b4/NirvanaUnpluggedinNewYork.jpg"},
+    {"id":24,"artist":"Led Zeppelin","title":"Led Zeppelin I","genre":"Classic Rock","year":1969,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/8e/LedZeppelinLedZeppelinalbumcover.jpg"},
+    {"id":25,"artist":"Derek and the Dominos","title":"Layla and Other Assorted Love Songs","genre":"Blues","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/6b/Derek_Layla.jpg"},
+    {"id":26,"artist":"The Strokes","title":"Future Present Past EP","genre":"Indie","year":2016,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/87/The_Strokes_-_Future_Present_Past.png"},
+    {"id":27,"artist":"B.B. King","title":"B.B. King's Greatest Hits","genre":"Blues","year":1981,"img_url":""},
+    {"id":28,"artist":"Mumford & Sons","title":"Babel","genre":"Folk","year":2012,"img_url":"https://upload.wikimedia.org/wikipedia/en/0/0a/Babel_album_mumford.jpg"},
+    {"id":29,"artist":"Boston","title":"Boston","genre":"Rock","year":1976,"img_url":""},
+    {"id":30,"artist":"Stevie Ray Vaughan","title":"Live at Carnegie Hall","genre":"Blues","year":1997,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/e3/SRVCarnegieHall.jpg"},
+    {"id":31,"artist":"Toadies","title":"Rubberneck","genre":"Alt/Grunge","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/c6/Toadies_rubberneck.jpg"},
+    {"id":32,"artist":"Frank Sinatra","title":"Have Yourself a Merry Little Christmas","genre":"Jazz/Vocal","year":1963,"img_url":""},
+    {"id":33,"artist":"Johnny Cash","title":"The Christmas Spirit","genre":"Country","year":1963,"img_url":""},
+    {"id":35,"artist":"Elvis Presley","title":"Elvis' Christmas Album","genre":"Holiday","year":1957,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/8f/ElvisChristmasAlbum.jpg"},
+    {"id":36,"artist":"Ryan Bingham","title":"Roadhouse Sun","genre":"Country","year":2009,"img_url":""},
+    {"id":37,"artist":"Bob Marley","title":"Legend","genre":"Reggae","year":1984,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/c2/Legend_%28Bob_Marley_album_-_cover_art%29.jpg"},
+    {"id":38,"artist":"Beck","title":"Morning Phase","genre":"Folk","year":2014,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/32/Beck-MorningPhase.jpg"},
+    {"id":39,"artist":"Jimi Hendrix","title":"Axis: Bold as Love","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/bb/Axis_Bold_as_Love.jpg"},
+    {"id":40,"artist":"Rush","title":"Moving Pictures","genre":"Rock","year":1981,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/1f/Rush_Moving_Pictures.jpg"},
+    {"id":41,"artist":"Billy Idol","title":"Rebel Yell","genre":"Rock","year":1983,"img_url":"https://upload.wikimedia.org/wikipedia/en/9/99/Billy_Idol_-_Rebel_Yell.jpg"},
+    {"id":42,"artist":"James Taylor","title":"James Taylor's Greatest Hits","genre":"Folk","year":1976,"img_url":""},
+    {"id":43,"artist":"The Animals","title":"The Best of the Animals","genre":"Classic Rock","year":1966,"img_url":""},
+    {"id":44,"artist":"Survivor","title":"Eye of the Tiger","genre":"Rock","year":1982,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/c3/Survivor-EyeOfTheTiger.jpg"},
+    {"id":45,"artist":"Van Halen","title":"Van Halen","genre":"Rock","year":1978,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/bf/Van_Halen_-_Van_Halen_%28album_cover%29.jpg"},
+    {"id":46,"artist":"Jason Isbell and the 400 Unit","title":"The Nashville Sound","genre":"Country","year":2017,"img_url":"https://upload.wikimedia.org/wikipedia/en/d/d6/Jason_Isbell_Nashville_Sound.jpg"},
+    {"id":47,"artist":"Bob Marley and the Wailers","title":"Catch a Fire","genre":"Reggae","year":1973,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/c6/Bob_Marley-Catch_a_Fire.jpg"},
+    {"id":48,"artist":"Sturgill Simpson","title":"The Ballad of Dood & Juanita","genre":"Country","year":2021,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/4a/Sturgill_Simpson_The_Ballad_of_Dood_%26_Juanita.png"},
+    {"id":49,"artist":"David Bowie","title":"Labyrinth (Soundtrack)","genre":"Soundtrack","year":1986,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/e6/Labyrinthsoundtrack.jpg"},
+    {"id":50,"artist":"Fiona Apple","title":"Fetch the Bolt Cutters","genre":"Alt/Indie","year":2020,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/5b/Fiona_Apple_-_Fetch_the_Bolt_Cutters.png"},
+    {"id":51,"artist":"Jason Isbell","title":"Southeastern","genre":"Country","year":2013,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/81/Jason_Isbell_-_Southeastern.jpg"},
+    {"id":52,"artist":"Reverend Horton Heat","title":"The Full Custom Gospel Sounds","genre":"Punk/Rockabilly","year":1993,"img_url":""},
+    {"id":53,"artist":"Tom Petty and the Heartbreakers","title":"The Best of Everything 1976\u20132016","genre":"Rock","year":2019,"img_url":"https://upload.wikimedia.org/wikipedia/en/7/77/Tom_Petty_Best_of_Everything.jpg"},
+    {"id":54,"artist":"Tom Petty","title":"Wildflowers & All the Rest","genre":"Rock","year":2020,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/10/Tom_Petty_Wildflowers_%26_All_the_Rest.jpg"},
+    {"id":55,"artist":"Sturgill Simpson","title":"A Sailor's Guide to Earth","genre":"Country","year":2016,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/19/Sturgill_A_Sailor%27s_Guide.jpg"},
+    {"id":56,"artist":"Pearl Jam","title":"Yield","genre":"Rock","year":1998,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/6e/Pearl_Jam_-_Yield.jpg"},
+    {"id":57,"artist":"Creedence Clearwater Revival","title":"Willy and the Poor Boys","genre":"Classic Rock","year":1969,"img_url":"https://upload.wikimedia.org/wikipedia/en/7/74/Willy_And_The_Poor_Boys.jpg"},
+    {"id":58,"artist":"The Beatles","title":"Abbey Road","genre":"Classic Rock","year":1969,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"},
+    {"id":59,"artist":"IDLES","title":"Ultra Mono","genre":"Punk","year":2020,"img_url":"https://upload.wikimedia.org/wikipedia/en/f/f5/IDLES_Ultra_Mono.jpg"},
+    {"id":60,"artist":"George Harrison","title":"All Things Must Pass","genre":"Classic Rock","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/ab/George_Harrison_-_All_Things_Must_Pass.jpg"},
+    {"id":61,"artist":"Willie Nelson","title":"Red Headed Stranger (Live from Austin City Limits)","genre":"Country","year":2019,"img_url":""},
+    {"id":62,"artist":"David Allan Coe","title":"Greatest Hits","genre":"Country","year":1978,"img_url":""},
+    {"id":63,"artist":"IDLES","title":"Joy as an Act of Resistance","genre":"Punk","year":2018,"img_url":"https://upload.wikimedia.org/wikipedia/en/9/9c/IDLES_-_Joy_as_an_Act_of_Resistance.jpg"},
+    {"id":64,"artist":"The Beatles","title":"Revolver","genre":"Classic Rock","year":1966,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/a7/Reevolver.jpg"},
+    {"id":65,"artist":"Queen","title":"A Night at the Opera","genre":"Rock","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/4d/Queen_A_Night_At_The_Opera.png"},
+    {"id":66,"artist":"Queen","title":"A Day at the Races","genre":"Rock","year":1976,"img_url":"https://upload.wikimedia.org/wikipedia/en/d/da/Queen_A_Day_At_The_Races.jpg"},
+    {"id":67,"artist":"The Beatles","title":"Rubber Soul","genre":"Classic Rock","year":1965,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/5a/Beatles_rubber_soul.jpg"},
+    {"id":68,"artist":"The Beatles","title":"Sgt. Pepper's Lonely Hearts Club Band","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/50/Sgt._Pepper%27s_Lonely_Hearts_Club_Band.jpg"},
+    {"id":69,"artist":"Neil Young","title":"Decade","genre":"Folk","year":1977,"img_url":"https://upload.wikimedia.org/wikipedia/en/7/7d/Neil_Young_Decade.jpg"},
+    {"id":70,"artist":"Shovels & Rope","title":"By Blood","genre":"Indie","year":2023,"img_url":""},
+    {"id":71,"artist":"Willie Nelson","title":"Long Story Short (Live)","genre":"Country","year":2021,"img_url":""},
+    {"id":72,"artist":"Willie Nelson","title":"Shotgun Willie","genre":"Country","year":1973,"img_url":"https://upload.wikimedia.org/wikipedia/en/f/f5/WillieNelsonShotgunWillie.jpg"},
+    {"id":73,"artist":"Chris Stapleton","title":"Traveller","genre":"Country","year":2015,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/44/Traveller_Chris_Stapleton.jpg"},
+    {"id":74,"artist":"Taylor Swift","title":"The Tortured Poets Department","genre":"Pop","year":2024,"img_url":"https://upload.wikimedia.org/wikipedia/en/f/f7/Taylor_Swift_-_The_Tortured_Poets_Department.png"},
+    {"id":75,"artist":"Led Zeppelin","title":"Physical Graffiti","genre":"Classic Rock","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/0/0a/Led_Zeppelin_-_Physical_Graffiti.jpg"},
+    {"id":76,"artist":"Willie Nelson","title":"Red Headed Stranger","genre":"Country","year":1975,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/ea/Willie_Nelson_-_Red_Headed_Stranger.jpg"},
+    {"id":77,"artist":"The Strokes","title":"Angles","genre":"Indie","year":2011,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/30/The_Strokes_Angles.jpg"},
+    {"id":78,"artist":"Lana Del Rey","title":"Born to Die","genre":"Pop","year":2012,"img_url":"https://upload.wikimedia.org/wikipedia/en/7/71/Lana_Del_Rey_-_Born_to_Die_%28Explicit_Cover%29.jpg"},
+    {"id":79,"artist":"The Beatles","title":"The White Album","genre":"Classic Rock","year":1968,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/4e/Thebeatlesalbum.jpg"},
+    {"id":80,"artist":"Sturgill Simpson","title":"Metamodern Sounds in Country Music","genre":"Country","year":2014,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/87/Sturgill_Simpson_-_Metamodern_Sounds_in_Country_Music.jpg"},
+    {"id":82,"artist":"Stevie Ray Vaughan","title":"Soul to Soul","genre":"Blues","year":1985,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/1a/Stevie_Ray_Vaughan_-_Soul_to_Soul.jpg"},
+    {"id":83,"artist":"Nirvana","title":"Nevermind","genre":"Alt/Grunge","year":1991,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/b7/NirvanaNevermindalbumcover.jpg"},
+    {"id":84,"artist":"Stevie Ray Vaughan","title":"Couldn't Stand the Weather","genre":"Blues","year":1984,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/e9/Couldn%27t_Stand_the_Weather.jpg"},
+    {"id":85,"artist":"The Strokes","title":"The New Abnormal","genre":"Indie","year":2020,"img_url":"https://upload.wikimedia.org/wikipedia/en/9/9a/The_New_Abnormal.jpg"},
+    {"id":86,"artist":"Cream","title":"Disraeli Gears","genre":"Classic Rock","year":1967,"img_url":"https://upload.wikimedia.org/wikipedia/en/d/df/Disraeli_Gears.jpg"},
+    {"id":87,"artist":"Bob Dylan","title":"Bringing It All Back Home","genre":"Folk","year":1965,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/c3/Bob_Dylan_-_Bringing_It_All_Back_Home.jpg"},
+    {"id":88,"artist":"Nirvana","title":"Bleach","genre":"Alt/Grunge","year":1989,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/ec/Nirvana_-_Bleach.jpg"},
+    {"id":89,"artist":"Peter Frampton","title":"Frampton Comes Alive!","genre":"Rock","year":1976,"img_url":"https://upload.wikimedia.org/wikipedia/en/8/8d/Frampton_Comes_Alive.jpg"},
+    {"id":91,"artist":"Bob Dylan","title":"The Freewheelin' Bob Dylan","genre":"Folk","year":1963,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/bc/Bob_Dylan_-_The_Freewheelin%27_Bob_Dylan.jpg"},
+    {"id":92,"artist":"Grateful Dead","title":"Workingman's Dead","genre":"Folk","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/1/15/Workingman%27s_Dead.jpg"},
+    {"id":93,"artist":"Pink Floyd","title":"The Dark Side of the Moon","genre":"Classic Rock","year":1973,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png"},
+    {"id":94,"artist":"Nirvana","title":"In Utero","genre":"Alt/Grunge","year":1993,"img_url":"https://upload.wikimedia.org/wikipedia/en/7/7f/In_Utero_%28Nirvana%29_album_cover.jpg"},
+    {"id":95,"artist":"The Strokes","title":"Is This It","genre":"Indie","year":2001,"img_url":"https://upload.wikimedia.org/wikipedia/en/2/2a/Is_This_It.jpg"},
+    {"id":96,"artist":"Pearl Jam","title":"Vitalogy","genre":"Rock","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/40/PearlJamVitalogy.jpg"},
+    {"id":97,"artist":"The Strokes","title":"Room on Fire","genre":"Indie","year":2003,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/3a/The_Strokes_-_Room_on_Fire.jpg"},
+    {"id":98,"artist":"The Strokes","title":"First Impressions of Earth","genre":"Indie","year":2006,"img_url":"https://upload.wikimedia.org/wikipedia/en/d/d8/TheStrokesFirstImpressionsofEarth.jpg"},
+    {"id":99,"artist":"Jeff Buckley","title":"Grace","genre":"Alt/Indie","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/a/a0/Jeff_Buckley_Grace.jpg"},
+    {"id":100,"artist":"Amy Winehouse","title":"Back to Black","genre":"Pop/Soul","year":2006,"img_url":"https://upload.wikimedia.org/wikipedia/en/6/67/Amy_Winehouse_-_Back_to_Black.png"},
+    {"id":101,"artist":"The Beach Boys","title":"Pet Sounds","genre":"Pop","year":1966,"img_url":"https://upload.wikimedia.org/wikipedia/en/b/bb/PetSoundsCover.jpg"},
+    {"id":103,"artist":"Beck","title":"Mutations","genre":"Folk","year":1998,"img_url":"https://upload.wikimedia.org/wikipedia/en/9/95/Beck-Mutations-album-cover.jpg"},
+    {"id":105,"artist":"Johnny Cash","title":"American IV: The Man Comes Around","genre":"Country","year":2002,"img_url":"https://upload.wikimedia.org/wikipedia/en/e/e0/Johnny_Cash-The_Man_Comes_Around.jpg"},
+    {"id":106,"artist":"Led Zeppelin","title":"Led Zeppelin IV","genre":"Classic Rock","year":1971,"img_url":"https://upload.wikimedia.org/wikipedia/en/2/26/Led_Zeppelin_-_Led_Zeppelin_IV.jpg"},
+    {"id":107,"artist":"Led Zeppelin","title":"Led Zeppelin II","genre":"Classic Rock","year":1969,"img_url":"https://upload.wikimedia.org/wikipedia/en/c/cf/Led_Zeppelin_-_Led_Zeppelin_II.jpg"},
+    {"id":108,"artist":"Led Zeppelin","title":"Led Zeppelin III","genre":"Classic Rock","year":1970,"img_url":"https://upload.wikimedia.org/wikipedia/en/5/5c/Led_Zeppelin_-_Led_Zeppelin_III.jpg"},
+    {"id":109,"artist":"Eric Clapton","title":"Slowhand","genre":"Blues","year":1977,"img_url":"https://upload.wikimedia.org/wikipedia/en/d/d8/Slowhand.jpg"},
+    {"id":110,"artist":"Smashing Pumpkins","title":"Siamese Dream","genre":"Alt/Grunge","year":1993,"img_url":"https://upload.wikimedia.org/wikipedia/en/9/95/Siamese_dream.jpg"},
+    {"id":111,"artist":"Johnny Cash","title":"At Folsom Prison","genre":"Country","year":1968,"img_url":"https://upload.wikimedia.org/wikipedia/en/0/09/JohnnyCashatFolsomPrisonalbumcover.jpg"},
+    {"id":112,"artist":"Beastie Boys","title":"Ill Communication","genre":"Rock","year":1994,"img_url":"https://upload.wikimedia.org/wikipedia/en/3/37/Beastie_Boys_Ill_Communication.jpg"},
+    {"id":113,"artist":"Johnny Cash","title":"Orange Blossom Special","genre":"Country","year":1965,"img_url":"https://upload.wikimedia.org/wikipedia/en/4/40/Johnny_Cash-Orange_Blossom_Special.jpg"},
+    {"id":114,"artist":"Tripping Daisy","title":"Bill","genre":"Alternative","year":1998,"img_url":""},
+    {"id":115,"artist":"Bob Dylan","title":"Blonde on Blonde","genre":"Folk","year":1966,"img_url":""},
+    {"id":116,"artist":"The Doors","title":"Strange Days","genre":"Classic Rock","year":1967,"img_url":""},
+    {"id":117,"artist":"Taylor Swift","title":"Evermore","genre":"Pop","year":2020,"img_url":""},
+    {"id":118,"artist":"Beck","title":"Sea Change","genre":"Folk","year":2002,"img_url":""},
+    {"id":119,"artist":"Pearl Jam","title":"Vs.","genre":"Rock","year":1993,"img_url":""},
+    {"id":120,"artist":"The Beatles","title":"Let It Be","genre":"Classic Rock","year":1970,"img_url":""},
+    {"id":121,"artist":"Tom Petty","title":"She's the One","genre":"Soundtrack","year":1996,"img_url":""},
+    {"id":122,"artist":"Tom Petty and the Heartbreakers","title":"Damn the Torpedoes","genre":"Rock","year":1979,"img_url":""},
+    {"id":123,"artist":"Led Zeppelin","title":"Houses of the Holy","genre":"Classic Rock","year":1973,"img_url":""},
+    {"id":124,"artist":"Lana Del Rey","title":"Norman Fucking Rockwell!","genre":"Pop","year":2019,"img_url":""}
+  ];
+
+  // ─── STATE ───────────────────────────────────────────────────
+  let state = {
+    query: '',
+    sort: 'artist',
+    group: 'none',
+    view: 'card',
+  };
+
+  // ─── DOM REFS ────────────────────────────────────────────────
+  const $main       = document.getElementById('main-content');
+  const $search     = document.getElementById('search-input');
+  const $clearBtn   = document.getElementById('clear-search');
+  const $sortSel    = document.getElementById('sort-select');
+  const $groupSel   = document.getElementById('group-select');
+  const $viewCard   = document.getElementById('view-card');
+  const $viewList   = document.getElementById('view-list');
+  const $themeBtn   = document.getElementById('theme-toggle');
+  const $showCount  = document.getElementById('showing-count');
+  const $resultsInfo= document.getElementById('results-info');
+
+  // ─── THEME ───────────────────────────────────────────────────
+  $themeBtn.addEventListener('click', () => {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+
+  // ─── SORT ────────────────────────────────────────────────────
+  function sortAlbums(arr, sortKey) {
+    return [...arr].sort((a, b) => {
+      switch (sortKey) {
+        case 'artist':    return a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title);
+        case 'title':     return a.title.localeCompare(b.title);
+        case 'genre':     return a.genre.localeCompare(b.genre) || a.artist.localeCompare(b.artist);
+        case 'year-asc':  return a.year - b.year || a.artist.localeCompare(b.artist);
+        case 'year-desc': return b.year - a.year || a.artist.localeCompare(b.artist);
+        default:          return 0;
+      }
+    });
+  }
+
+  // ─── FILTER ──────────────────────────────────────────────────
+  function filterAlbums(arr, query) {
+    if (!query.trim()) return arr;
+    const q = query.trim().toLowerCase();
+    return arr.filter(a =>
+      a.artist.toLowerCase().includes(q) ||
+      a.title.toLowerCase().includes(q)  ||
+      a.genre.toLowerCase().includes(q)  ||
+      String(a.year).includes(q)
+    );
+  }
+
+  // ─── GROUP ───────────────────────────────────────────────────
+  function groupAlbums(arr, groupKey) {
+    if (groupKey === 'none') return null;
+    const map = new Map();
+    for (const album of arr) {
+      const key = groupKey === 'artist' ? album.artist
+                : groupKey === 'genre'  ? album.genre
+                : String(album.year);
+      if (!map.has(key)) map.set(key, []);
+      map.get(key).push(album);
+    }
+    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
+  // ─── VINYL PLACEHOLDER SVG ───────────────────────────────────
+  function vinylSVG(size = 80) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="38" fill="#1a1410"/>
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#2a221c" stroke-width="1.2"/>
+      <circle cx="40" cy="40" r="28" fill="none" stroke="#2a221c" stroke-width="1"/>
+      <circle cx="40" cy="40" r="22" fill="none" stroke="#2a221c" stroke-width="1"/>
+      <circle cx="40" cy="40" r="16" fill="none" stroke="#2a221c" stroke-width="1"/>
+      <circle cx="40" cy="40" r="11" fill="#c8860a" opacity="0.85"/>
+      <circle cx="40" cy="40" r="4" fill="#1a1410"/>
+      <path d="M 30 28 A 14 14 0 0 1 50 28" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  // ─── RENDER CARD ─────────────────────────────────────────────
+  function renderCard(album) {
+    const hasArt = HAS_ART.has(album.id);
+    return `<article class="album-card" role="listitem">
+      <div class="card-art-wrap${hasArt ? ' art-loaded' : ''}">
+        ${hasArt ? `<img src="/img/${album.id}.jpg" alt="${escHtml(album.title)} album art" loading="lazy" onerror="this.closest('.card-art-wrap').classList.remove('art-loaded')">` : ''}
+        <div class="vinyl-placeholder">${vinylSVG(70)}</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">${escHtml(album.title)}</div>
+        <div class="card-artist">${escHtml(album.artist)}</div>
+        <div class="card-meta">
+          <span class="card-genre">${escHtml(album.genre)}</span>
+          <span class="card-year">${album.year}</span>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  // ─── RENDER LIST ROW ─────────────────────────────────────────
+  function renderListRow(album) {
+    const hasArt = HAS_ART.has(album.id);
+    return `<div class="list-row" role="row">
+      <div class="list-thumb${hasArt ? ' art-loaded' : ''}" role="cell">
+        ${hasArt ? `<img src="/img/${album.id}.jpg" alt="" loading="lazy" onerror="this.closest('.list-thumb').classList.remove('art-loaded')">` : ''}
+        <div class="vinyl-placeholder">${vinylSVG(36)}</div>
+      </div>
+      <div class="list-cell list-title-cell" role="cell">
+        <div class="list-title">${escHtml(album.title)}</div>
+        <div class="list-artist">${escHtml(album.artist)}</div>
+      </div>
+      <div class="list-cell list-artist-cell" role="cell">${escHtml(album.artist)}</div>
+      <div class="list-cell list-genre-cell" role="cell">${escHtml(album.genre)}</div>
+      <div class="list-cell list-year-cell" role="cell">${album.year}</div>
+    </div>`;
+  }
+
+  // ─── RENDER ALBUMS BLOCK ─────────────────────────────────────
+  function renderBlock(albums, view) {
+    if (view === 'card') {
+      return `<div class="card-grid" role="list">${albums.map(renderCard).join('')}</div>`;
+    } else {
+      return `<div class="album-list" role="table" aria-label="Album list">
+        <div class="list-header" role="row">
+          <div class="list-header-cell" role="columnheader"></div>
+          <div class="list-header-cell" role="columnheader">Title</div>
+          <div class="list-header-cell" role="columnheader">Artist</div>
+          <div class="list-header-cell" role="columnheader">Genre</div>
+          <div class="list-header-cell" style="text-align:right" role="columnheader">Year</div>
+        </div>
+        ${albums.map(renderListRow).join('')}
+      </div>`;
+    }
+  }
+
+  // ─── RENDER ALL ───────────────────────────────────────────────
+  function render() {
+    const filtered = filterAlbums(ALBUMS, state.query);
+    const sorted   = sortAlbums(filtered, state.sort);
+    const groups   = groupAlbums(sorted, state.group);
+
+    // Update counts
+    const showing = filtered.length;
+    $showCount.textContent = `Showing ${showing}`;
+
+    if (state.query && filtered.length < ALBUMS.length) {
+      $resultsInfo.innerHTML = `Showing <strong>${showing}</strong> of ${ALBUMS.length} records for "<strong>${escHtml(state.query)}</strong>"`;
+    } else {
+      $resultsInfo.textContent = '';
+    }
+
+    // Empty state
+    if (showing === 0) {
+      $main.innerHTML = `<div class="empty-state">
+        <div class="empty-vinyl">${vinylSVG(90)}</div>
+        <h3>No records found</h3>
+        <p>Try a different search term — maybe check the spelling?</p>
+      </div>`;
+      return;
+    }
+
+    if (groups) {
+      $main.innerHTML = groups.map(([groupName, items]) => `
+        <section class="group-section">
+          <header class="group-header">
+            <h2 class="group-name">${escHtml(groupName)}</h2>
+            <span class="group-count">${items.length} ${items.length === 1 ? 'album' : 'albums'}</span>
+          </header>
+          ${renderBlock(items, state.view)}
+        </section>
+      `).join('');
+    } else {
+      $main.innerHTML = renderBlock(sorted, state.view);
+    }
+
+  }
+
+  // ─── UTILITY ─────────────────────────────────────────────────
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ─── EVENT LISTENERS ─────────────────────────────────────────
+  $search.addEventListener('input', () => {
+    state.query = $search.value;
+    $clearBtn.classList.toggle('visible', state.query.length > 0);
+    render();
+  });
+
+  $clearBtn.addEventListener('click', () => {
+    $search.value = '';
+    state.query = '';
+    $clearBtn.classList.remove('visible');
+    $search.focus();
+    render();
+  });
+
+  $sortSel.addEventListener('change', () => {
+    state.sort = $sortSel.value;
+    render();
+  });
+
+  $groupSel.addEventListener('change', () => {
+    state.group = $groupSel.value;
+    render();
+  });
+
+  $viewCard.addEventListener('click', () => {
+    state.view = 'card';
+    $viewCard.classList.add('active');
+    $viewList.classList.remove('active');
+    $viewCard.setAttribute('aria-pressed', 'true');
+    $viewList.setAttribute('aria-pressed', 'false');
+    render();
+  });
+
+  $viewList.addEventListener('click', () => {
+    state.view = 'list';
+    $viewList.classList.add('active');
+    $viewCard.classList.remove('active');
+    $viewList.setAttribute('aria-pressed', 'true');
+    $viewCard.setAttribute('aria-pressed', 'false');
+    render();
+  });
+
+  // ─── ALBUMS WITH LOCAL ART ───────────────────────────────────
+  // IDs that have a downloaded image in /img/
+  const HAS_ART = new Set([1,2,3,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99,100,101,103,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124]);
+
+  // ─── INIT ────────────────────────────────────────────────────
+  render();
+</script>
+</body>
+</html>
